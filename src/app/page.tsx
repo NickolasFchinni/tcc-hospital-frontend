@@ -11,7 +11,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8700/auth/login', { email, password });
+      const response = await axios.post('api-production-58ca.up.railway.app/auth/login', { email, password });
       const { token, user } = response.data;
 
       localStorage.setItem('token', token);
