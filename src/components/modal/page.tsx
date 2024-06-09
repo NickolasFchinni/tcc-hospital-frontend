@@ -117,7 +117,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get("http://localhost:8700/worker/medicos");
+      const response = await axios.get("https://api-production-58ca.up.railway.app/worker/medicos");
       setSurgeon(response.data);
     } catch (error) {
       console.error("Failed to fetch doctors:", error);
@@ -135,7 +135,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchRoom = async () => {
     try {
-      const response = await axios.get("http://localhost:8700/sala");
+      const response = await axios.get("https://api-production-58ca.up.railway.app/sala");
       setRoom(response.data);
     } catch (error) {
       console.error("Failed to fetch patients:", error);
@@ -155,7 +155,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchProposals = async (gender: string) => {
     try {
-      const response = await axios.get(`http://localhost:8700/procedimento?sexo=${gender}`);
+      const response = await axios.get(`https://api-production-58ca.up.railway.app/procedimento?sexo=${gender}`);
       setProposals(response.data);
     } catch (error) {
       console.error("Failed to fetch proposals:", error);
@@ -164,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchCompatibleMaterials = async (procedureId: string) => {
     try {
-      const response = await axios.get(`http://localhost:8700/material?procedureId=${procedureId}`);
+      const response = await axios.get(`https://api-production-58ca.up.railway.app/material?procedureId=${procedureId}`);
       setMaterials(response.data);
     } catch (error) {
       console.error("Failed to fetch compatible materials:", error);
