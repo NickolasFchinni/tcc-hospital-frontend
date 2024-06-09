@@ -83,7 +83,7 @@ const Modal: React.FC<ModalProps> = ({ onAddProvider, onUpdateProvider, initialP
 
   const fetchEspecialidades = async () => {
     try {
-      const response = await axios.get<Especialidade[]>("http://localhost:8700/especialidade");
+      const response = await axios.get<Especialidade[]>("https://api-production-58ca.up.railway.app/especialidade");
       setEspecialidades(response.data); 
     } catch (error) {
       console.error('Erro ao buscar especialidades:', error);
