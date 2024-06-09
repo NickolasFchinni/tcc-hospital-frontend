@@ -15,12 +15,13 @@ interface User {
   ds_senha: string;
   Dt_cadastro: string;
   Sn_ativo: string;
+  nome_prestador: string;
 }
 
 interface ModalProps {
   onAddUser: (userData: User) => Promise<void>;
   onUpdateUser?: (userData: User) => Promise<void>;
-  initialUser?: User | undefined;
+  initialUser: User | null;
 }
 
 const Modal: React.FC<ModalProps> = ({ onAddUser, onUpdateUser, initialUser }) => {
@@ -32,6 +33,7 @@ const Modal: React.FC<ModalProps> = ({ onAddUser, onUpdateUser, initialUser }) =
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [nmPrestador, setNmPrestador] = useState("");
 
   useEffect(() => {
     if (initialUser) {
@@ -51,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({ onAddUser, onUpdateUser, initialUser }) =
 
   const fetchProviders = async () => {
     try {
-      const response = await axios.get<Provider[]>("https://api-production-58ca.up.railway.app/worker");
+      const response = await axios.get<Provider[]>("http://localhost:8700/worker");
       setProviders(response.data);
     } catch (error) {
       console.error('Erro ao buscar prestadores:', error);
@@ -96,6 +98,7 @@ const Modal: React.FC<ModalProps> = ({ onAddUser, onUpdateUser, initialUser }) =
       ds_senha: password,
       Dt_cadastro: formatDateToMySQL(currentDateTime),
       Sn_ativo: isActive,
+      nome_prestador: nmPrestador
     };
 
     try {

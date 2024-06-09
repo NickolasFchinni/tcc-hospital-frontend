@@ -64,7 +64,7 @@ interface Provider {
   nr_cpf: string;
   ds_tip_presta: string;
   dt_nascimento: string;
-  ds_codigo_conselho: number;
+  ds_codigo_conselho: string;
   ds_cep: string;
   id_especialidade: number;
 }
@@ -160,7 +160,7 @@ const Page = () => {
   };
 
   return (
-    <main className="h-full w-full flex items-center justify-center">
+    <main className="2xl:h-full w-full flex items-center justify-center">
       <Container>
         <div className="flex justify-between items-center py-2">
           <div className="text-gray-600 text-2xl font-semibold pb-2">Listagem de prestadores</div>

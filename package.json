@@ -1,4 +1,5 @@
 {
+  "proxy": "https://api-production-58ca.up.railway.app",
   "homepage": "https://NickolasFchinni.github.io/tcc",
   "name": "tcc",
   "version": "0.1.0",

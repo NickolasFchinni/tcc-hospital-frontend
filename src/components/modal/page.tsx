@@ -40,6 +40,10 @@ interface Material {
   id: string;
   name: string;
   quantity_available: number;
+  COD_PROCEDIMENTO_COMPATIVEL: string;
+  NO_PROCEDIMENTO_COMPATIVEL: string;
+  QT_PERMITIDA: number;
+
 }
 
 const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
@@ -113,7 +117,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get("https://api-production-58ca.up.railway.app/worker/medicos");
+      const response = await axios.get("http://localhost:8700/worker/medicos");
       setSurgeon(response.data);
     } catch (error) {
       console.error("Failed to fetch doctors:", error);
@@ -131,7 +135,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchRoom = async () => {
     try {
-      const response = await axios.get("https://api-production-58ca.up.railway.app/sala");
+      const response = await axios.get("http://localhost:8700/sala");
       setRoom(response.data);
     } catch (error) {
       console.error("Failed to fetch patients:", error);
@@ -141,7 +145,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchPatients = async () => {
     try {
-      const response = await axios.get("https://api-production-58ca.up.railway.app/patient");
+      const response = await axios.get("http://localhost:8700/patient");
       setPatients(response.data);
     } catch (error) {
       console.error("Failed to fetch patients:", error);
@@ -151,7 +155,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchProposals = async (gender: string) => {
     try {
-      const response = await axios.get(`https://api-production-58ca.up.railway.app/procedimento?sexo=${gender}`);
+      const response = await axios.get(`http://localhost:8700/procedimento?sexo=${gender}`);
       setProposals(response.data);
     } catch (error) {
       console.error("Failed to fetch proposals:", error);
@@ -160,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchCompatibleMaterials = async (procedureId: string) => {
     try {
-      const response = await axios.get(`https://api-production-58ca.up.railway.app/material?procedureId=${procedureId}`);
+      const response = await axios.get(`http://localhost:8700/material?procedureId=${procedureId}`);
       setMaterials(response.data);
     } catch (error) {
       console.error("Failed to fetch compatible materials:", error);
@@ -197,7 +201,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
       sn_reserva_hemocomponentes: hemo, // replace with actual value
       ds_justificativa: description,
       id_usuario: idUsuario,
-      id_procedimento: surgeryProposal ? String(surgeryProposal.CO_PROCEDIMENTO) : "",
+      id_procedimento: surgeryProposal ? String(surgeryProposal[0].CO_PROCEDIMENTO) : "",
     };
 
     try {

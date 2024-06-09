@@ -10,7 +10,7 @@ interface Provider {
   nr_cpf: string;
   ds_tip_presta: string;
   dt_nascimento: string;
-  ds_codigo_conselho: number;
+  ds_codigo_conselho: string;
   ds_cep: string;
   id_especialidade: number;
 }
@@ -23,7 +23,7 @@ interface Especialidade {
 interface ModalProps {
   onAddProvider: (providerData: Provider) => Promise<void>;
   onUpdateProvider?: (patientData: Provider) => Promise<void>;
-  initialProvider?: Provider | undefined;
+  initialProvider: Provider | null;
 }
 
 const normalizeCpf = (cpf: string) => cpf.replace(/[^\d]/g, "");
@@ -83,7 +83,7 @@ const Modal: React.FC<ModalProps> = ({ onAddProvider, onUpdateProvider, initialP
 
   const fetchEspecialidades = async () => {
     try {
-      const response = await axios.get<Especialidade[]>("https://api-production-58ca.up.railway.app/especialidade");
+      const response = await axios.get<Especialidade[]>("http://localhost:8700/especialidade");
       setEspecialidades(response.data); 
     } catch (error) {
       console.error('Erro ao buscar especialidades:', error);

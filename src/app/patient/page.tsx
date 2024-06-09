@@ -72,9 +72,13 @@ interface Patient {
   id_paciente: number;
   nm_paciente: string;
   nr_cpf: string;
+  ds_cep: string;
+  nm_mae: string;
   nr_telefone: string;
   dt_nascimento: string;
   tp_sexo: 'M' | 'F';
+  tp_estado_civil: string;
+  nr_cns: string;
 }
 
 const Page = () => {
@@ -92,7 +96,6 @@ const Page = () => {
       const formattedData = response.data.map(item => ({
         ...item,
         dt_nascimento: formatBirthDate(item.dt_nascimento),
-        tp_sexo: item.tp_sexo === 'M' ? 'Masculino' : 'Feminino',
         nr_cpf: formatCPF(item.nr_cpf),
       }));
       setData(formattedData);
@@ -143,10 +146,11 @@ const Page = () => {
     setModalData(patient); 
     setIsModalVisible(true); 
   };
-  
+
+  const displaySexo = (sexo: 'M' | 'F') => sexo === 'M' ? 'Masculino' : 'Feminino';
 
   return (
-    <main className="h-full w-full flex items-center justify-center">
+    <main className="2xl:h-full w-full flex items-center justify-center">
       <Container>
         <div className="flex justify-between items-center py-2">
           <div className="text-gray-600 text-2xl font-semibold pb-2">Listagem de pacientes</div>
@@ -172,7 +176,7 @@ const Page = () => {
                   <Tr key={i}>
                     <Td width="200px">{item.nm_paciente}</Td>
                     <Td width="200px">{item.nr_cpf}</Td>
-                    <Td width="200px">{item.tp_sexo}</Td>
+                    <Td width="200px">{displaySexo(item.tp_sexo)}</Td>
                     <Td width="200px">{item.dt_nascimento}</Td>
                     <Td width="200px">{formatPhoneNumber(item.nr_telefone)}</Td>
                     <Td width="5%">

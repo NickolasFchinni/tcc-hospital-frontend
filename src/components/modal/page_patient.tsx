@@ -20,7 +20,7 @@ interface Patient {
 interface ModalProps {
   onAddPatient: (patientData: Patient) => Promise<void>;
   onUpdatePatient?: (patientData: Patient) => Promise<void>;
-  initialPatient?: Patient | undefined;
+  initialPatient: Patient | null;
 }
 
 const normalizeCpf = (cpf: string) => cpf.replace(/[^\d]/g, "");

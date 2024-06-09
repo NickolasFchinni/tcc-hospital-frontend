@@ -59,7 +59,7 @@ const Menu: React.FC = () => {
     <> </>
   ) : (
     <main className="bg-gradient-to-b from-cyan-500 to-blue-700 h-[100vh] flex flex-col p-8 text-white">
-      <div style={{ fontSize: "3rem" }} className="text-white mt-10 font-bold mb-[150px]">
+      <div style={{ fontSize: "3rem" }} className="text-white mt-10 font-bold 2xl:mb-[150px] md:mb-[80px]">
         Hospital
       </div>
       {menuItems.filter((item) => item.role === userRole).map((item, index) => (

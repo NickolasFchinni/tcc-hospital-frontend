@@ -130,7 +130,7 @@ const Page = () => {
   };
 
   return (
-    <main className="h-full w-full flex items-center justify-center">
+    <main className="2xl:h-full w-full flex items-center justify-center">
       <Container>
         <div className="flex justify-between items-center py-2">
           <div className="text-gray-600 text-2xl font-semibold pb-2">Listagem de usuários</div>

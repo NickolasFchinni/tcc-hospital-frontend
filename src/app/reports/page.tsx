@@ -1,9 +1,11 @@
+"use client"
 import React from "react"
 import ProtectedRoute from "@/components/ProtectedRoute"
+import Image from 'next/image';
 
  function Page() {
   return (
-    <main className="h-full w-full flex items-center justify-center relative">
+    <main className="2xl:h-full w-full flex items-center justify-center relative">
       <div className="w-fit">
         <div className="flex justify-center py-2">
           <div className="text-center">
@@ -20,7 +22,7 @@ import ProtectedRoute from "@/components/ProtectedRoute"
                 backgroundColor: "#fff",
               }}
             >
-              <img
+              <Image
                 src="https://s3-alpha-sig.figma.com/img/8de1/b24c/faf853c13514b7eceacc4664ac6e053f?Expires=1715558400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DSNVeDjWzhlOqwly40GdcE7l0rJxMErIa7hKuIttfNt3888JSTzO-Q3w6S00QFGSnq7cOjyoD7AjkiO3HPyTRcrXU~xkCRbwln6DAzFt-lOa6oUWc6yhDFKWHrWw9KwGYDyR9wtUr9YSo8vnrfu13IseTkkYy-gFuB7LMH~k19SAR7b7Xyrn22HS6-HF55X~wvC3q5VsXuN5pcMSr6sG8tTCjode5yPhyNycFYjNsr6zI5QhYxxEaIfiUp2BjxzFQ2Jqw-NTFjI1BpsHuu0TpVFO0sWXsOePsM2iknzk8kDGRhmio~6UnreRs9VsSi5PYh72--agNxm-jWlurlKunw__"
                 alt="Admin Image"
                 className="mb-2"
@@ -50,7 +52,7 @@ import ProtectedRoute from "@/components/ProtectedRoute"
                 backgroundColor: "#fff",
               }}
             >
-              <img
+              <Image
                 src="https://s3-alpha-sig.figma.com/img/b17e/2cc1/669df04d8e9e488e8387f8d187be52a4?Expires=1715558400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mllLIScPJD8hORNhClKomSus6w-Zlhv8h3NpHw3Gd2sjFPkwDmlCSxVbZsnkI0SeQ6B8QEAolExc2hCjcvWx66sOmC4HogO3TP41SO5ZWNxeYNTUtypywbJeodwK4NSgh8iWq8fpOsw54RLyjcaC5OWUPFKt3EuuSLnvQYL27Yt1CUcS1G1-mTsEl-Ylkpa2qI8DJIE8l~ccBKnS3lCYfaHbSew~bPHvf83Hcp9LcTr-~SmT-U6WiBRFZnVM0NA~IlMMNCs6TUmxRt1Ht8OY3m451OZW0HHjgzBq8HICyHyWCucBMLKgFI522YGnhnsnr4E6uY1JUhJUmB-QlPCNjQ__"
                 alt="Operation Image"
                 className="mb-2"

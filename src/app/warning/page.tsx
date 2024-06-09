@@ -114,9 +114,8 @@ const Page = () => {
       console.log("Deleting warning with ID:", id);
       await axios.delete(`https://api-production-58ca.up.railway.app/aviso/${id}`);
       console.log("Warning deleted successfully!");
-  
+
       setData(prevData => prevData.filter(warning => warning.id_aviso_cirurgia !== id));
-      toast.success("Aviso deletado com sucesso!");
     } catch (error) {
       console.error("Erro ao deletar aviso:", error);
       toast.error("Erro ao deletar aviso.");
@@ -125,7 +124,7 @@ const Page = () => {
  
 
   return (
-    <main className="h-full w-full flex items-center justify-center">
+    <main className="2xl:h-full w-full flex items-center justify-center">
       <Container>
         <div className="flex justify-between items-center py-2">
           <div className="text-gray-600 text-2xl font-semibold pb-2">Listagem de avisos</div>
@@ -148,12 +147,12 @@ const Page = () => {
               <Tbody>
                 {data.map((item, i) => (
                   <Tr key={i}>
-                    <Td width="200px">{item.NO_PROCEDIMENTO}</Td>
+                    <Td width="200px">{item.id_procedimento}</Td>
                     <Td width="200px">{item.id_prestador}</Td>
                     <Td width="200px">{item.id_paciente}</Td>
                     <Td width="200px">{item.dt_agendamento}</Td>
                     <Td width="5%">
-                      <FaTrash onClick={() => handleDelete(item.id_paciente)} style={{ cursor: 'pointer' }} />
+                      <FaTrash onClick={() => handleDelete(item.id_aviso_cirurgia)} style={{ cursor: 'pointer' }} />
                     </Td>
                   </Tr>
                 ))}
