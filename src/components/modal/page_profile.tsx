@@ -53,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({ onAddUser, onUpdateUser, initialUser }) =
 
   const fetchProviders = async () => {
     try {
-      const response = await axios.get<Provider[]>("http://localhost:8700/worker");
+      const response = await axios.get<Provider[]>("https://api-production-58ca.up.railway.app/worker");
       setProviders(response.data);
     } catch (error) {
       console.error('Erro ao buscar prestadores:', error);
