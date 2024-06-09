@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({ onAddRoom }) => {
 
   const fetchCentros = async () => {
     try {
-      const response = await axios.get<CentroCirurgico[]>("http://localhost:8700/centro");
+      const response = await axios.get<CentroCirurgico[]>("https://api-production-58ca.up.railway.app/centro");
       setCentros(response.data);
     } catch (error) {
       console.error("Error fetching centros:", error);
@@ -70,7 +70,7 @@ const Modal: React.FC<ModalProps> = ({ onAddRoom }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8700/centro", { nm_cen_cirurgico: newcenter });
+      const response = await axios.post("https://api-production-58ca.up.railway.app/centro", { nm_cen_cirurgico: newcenter });
       console.log("Centro cirúrgico criado com sucesso:", response.data);
       fetchCentros(); 
       setNewCenter(""); 
@@ -85,7 +85,7 @@ const Modal: React.FC<ModalProps> = ({ onAddRoom }) => {
         throw new Error("Nenhum centro cirúrgico selecionado para deletar.");
       }
 
-      const response = await axios.delete(`http://localhost:8700/centro/${deleteCenter}`);
+      const response = await axios.delete(`https://api-production-58ca.up.railway.app/centro/${deleteCenter}`);
       console.log("Centro cirúrgico deletado com sucesso:", response.data);
       fetchCentros();
       setDeleteCenter(""); 
