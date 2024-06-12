@@ -162,9 +162,10 @@ const Modal: React.FC<ModalProps> = ({ onAddProvider, onUpdateProvider, initialP
                   required
                 >
                   <option value="">Selecione</option>
-                  <option value="Médico">Médico</option>
-                  <option value="Operacional">Operacional</option>
-                  <option value="Administrativo">Administrativo</option>
+                  <option value="MEDICO">Médico</option>
+                  <option value="OPERACIONAL">Operacional</option>
+                  <option value="ADMINISTRATIVO">Administrativo</option>
+                  <option value="TI">Ti</option>
                 </select>
               </div>
               <div className="flex flex-col md:w-1/4 mb-4">
@@ -225,7 +226,6 @@ const Modal: React.FC<ModalProps> = ({ onAddProvider, onUpdateProvider, initialP
                   value={codConselho}
                   onChange={(e) => setCodConselho(e.target.value)}
                   className="outline outline-offset-2 outline-1 rounded px-2 py-1 mt-2 w-[191px]"
-                  required
                 />
               </div>
               <button

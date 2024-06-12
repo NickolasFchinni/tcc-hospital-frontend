@@ -1,23 +1,22 @@
-// src/components/ProtectedRoute.js
-"use client"
+"use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = (WrappedComponent) => {
   const HOC = (props) => {
-    const { user, loading } = useAuth();
+    const { user, loading, authLoading } = useAuth(); 
     const router = useRouter();
 
     useEffect(() => {
-      if (!loading) {
+      if (!loading && !authLoading) { 
         if (!user) {
           router.push("/");
         }
       }
-    }, [user, loading, router]);
+    }, [user, loading, authLoading, router]); 
 
-    if (loading) {
+    if (loading || authLoading) { 
       return <div>Loading...</div>;
     }
 

@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -15,6 +17,8 @@ const Login: React.FC = () => {
       const { token, user } = response.data;
 
       localStorage.setItem('token', token);
+
+      login(token);
 
       console.log('Login successful:', token, user);
       router.push('/home');

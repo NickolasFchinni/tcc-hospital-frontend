@@ -5,7 +5,9 @@ import axios from "axios";
 import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
-import ProtectedRoute from "@/components/ProtectedRoute"
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';   
 
 const Container = styled.div`
   max-width: 1200px;
@@ -46,6 +48,14 @@ const ScrollContainer = styled.div`
 `;
 
 const formatBirthDate = (birthDateString: string) => {
+  const birthDate = new Date(birthDateString);
+  const day = birthDate.getDate().toString().padStart(2, '0');
+  const month = (birthDate.getMonth() + 1).toString().padStart(2, '0');
+  const year = birthDate.getFullYear().toString();
+  return `${year}-${month}-${day}`;
+};
+
+const formatBirthDateForDisplay = (birthDateString: string) => {
   const birthDate = new Date(birthDateString);
   const day = birthDate.getDate().toString().padStart(2, '0');
   const month = (birthDate.getMonth() + 1).toString().padStart(2, '0');
@@ -127,18 +137,33 @@ const Page = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    try {
-      console.log("Deleting prestador with ID:", id);
-      await axios.delete(`https://api-production-58ca.up.railway.app/worker/${id}`);
-      console.log("Provider deleted successfully!");
-  
-      setData(prevData => prevData.filter(provider => provider.id_prestador !== id));
-      toast.success("Prestador deletado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao deletar prestador:", error);
-      toast.error("Erro ao deletar prestador.");
-    }
+  const handleDelete = (id: number) => {
+    confirmAlert({
+      title: 'Confirmar Exclusão',
+      message: 'Você tem certeza que deseja deletar este prestador?',
+      buttons: [
+        {
+          label: 'Confirmar',
+          onClick: async () => {
+            try {
+              console.log("Deleting worker with ID:", id);
+              await axios.delete(`https://api-production-58ca.up.railway.app/worker/${id}`);
+              console.log("Patient deleted successfully!");
+      
+              setData(prevData => prevData.filter(provider => provider.id_prestador !== id));
+              toast.success("Prestador deletado com sucesso!");
+            } catch (error) {
+              console.error("Erro ao deletar prestador:", error);
+              toast.error("Erro ao deletar prestador.");
+            }
+          }
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => {}
+        }
+      ]
+    });
   };
 
   const handleEditModalOpen = (provider: Provider) => {
@@ -160,7 +185,7 @@ const Page = () => {
   };
 
   return (
-    <main className="2xl:h-full w-full flex items-center justify-center">
+    <main className="md:mt-5 2xl:mt-0 2xl:h-[91.5vh] w-full flex items-center justify-center">
       <Container>
         <div className="flex justify-between items-center py-2">
           <div className="text-gray-600 text-2xl font-semibold pb-2">Listagem de prestadores</div>
@@ -186,7 +211,7 @@ const Page = () => {
                   <Tr key={i}>
                     <Td width="200px">{item.nm_prestador}</Td>
                     <Td width="200px">{item.nr_cpf}</Td>
-                    <Td width="200px">{item.dt_nascimento}</Td>
+                    <Td width="200px">{formatBirthDateForDisplay(item.dt_nascimento)}</Td>
                     <Td width="200px">{formatTipoPrestador(item.ds_tip_presta)}</Td>
                     <Td width="270px">
                       {especialidades.find((especialidade) => especialidade.id_especialidade === item.id_especialidade)?.ds_especialidade || ''}

@@ -13,6 +13,8 @@ import relatoriosIcon from "../../assets/icons/report.svg";
 import reportblue from "../../assets/icons/reportblue.svg";
 import usersIcon from "../../assets/icons/Vecto.png";
 import usersblue from "../../assets/icons/VectoBlue.png";
+import updateIcon from "../../assets/icons/upload.png";
+import updateBlue from "../../assets/icons/uploadBlue.png";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -46,13 +48,20 @@ const Menu: React.FC = () => {
     { role: "MEDICO", href: "home", icon: home, activeIcon: homeBlue, label: "Home" },
     { role: "OPERACIONAL", href: "home", icon: home, activeIcon: homeBlue, label: "Home" },
     { role: "OPERACIONAL", href: "warning", icon: avisosIcon, activeIcon: heartblue, label: "Avisos" },
+    { role: "TI", href: "home", icon: home, activeIcon: homeBlue, label: "Home" },
+    { role: "TI", href: "warning", icon: avisosIcon, activeIcon: heartblue, label: "Avisos" },
     { role: "MEDICO", href: "warning", icon: avisosIcon, activeIcon: heartblue, label: "Avisos" },
     { role: "MEDICO", href: "patient", icon: pacientesIcon, activeIcon: peopleblue, label: "Pacientes" },
     { role: "OPERACIONAL", href: "patient", icon: pacientesIcon, activeIcon: peopleblue, label: "Pacientes" },
     { role: "OPERACIONAL", href: "providers", icon: prestadoresIcon, activeIcon: providersblue, label: "Prestadores" },
     { role: "OPERACIONAL", href: "roms", icon: room, activeIcon: roomblue, label: "Salas de cirurgia e Centros cirúrgicos" },
+    { role: "TI", href: "patient", icon: pacientesIcon, activeIcon: peopleblue, label: "Pacientes" },
+    { role: "TI", href: "providers", icon: prestadoresIcon, activeIcon: providersblue, label: "Prestadores" },
+    { role: "TI", href: "roms", icon: room, activeIcon: roomblue, label: "Salas de cirurgia e Centros cirúrgicos" },
     { role: "ADMINISTRATIVO", href: "reports", icon: relatoriosIcon, activeIcon: reportblue, label: "Relatórios" },
-    { role: "OPERACIONAL", href: "users", icon: usersIcon, activeIcon: usersblue, label: "Usuários" }
+    { role: "TI", href: "reports", icon: relatoriosIcon, activeIcon: reportblue, label: "Relatórios" },
+    { role: "TI", href: "users", icon: usersIcon, activeIcon: usersblue, label: "Usuários" },
+    { role: "TI", href: "update", icon: updateIcon, activeIcon: updateBlue, label: "Atualizar tabela" }
   ];
 
   return pathname === "/" ? (

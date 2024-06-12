@@ -6,10 +6,11 @@ import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
 const Container = styled.div`
   max-width: 1200px;
-  margin: 0 auto;
   padding: 20px;
 `;
 
@@ -46,6 +47,14 @@ const ScrollContainer = styled.div`
 `;
 
 const formatBirthDate = (birthDateString: string) => {
+  const birthDate = new Date(birthDateString);
+  const day = birthDate.getDate().toString().padStart(2, '0');
+  const month = (birthDate.getMonth() + 1).toString().padStart(2, '0');
+  const year = birthDate.getFullYear().toString();
+  return `${year}-${month}-${day}`;
+};
+
+const formatBirthDateForDisplay = (birthDateString: string) => {
   const birthDate = new Date(birthDateString);
   const day = birthDate.getDate().toString().padStart(2, '0');
   const month = (birthDate.getMonth() + 1).toString().padStart(2, '0');
@@ -128,19 +137,35 @@ const Page = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    try {
-      console.log("Deleting patient with ID:", id);
-      await axios.delete(`https://api-production-58ca.up.railway.app/patient/${id}`);
-      console.log("Patient deleted successfully!");
-  
-      setData(prevData => prevData.filter(patient => patient.id_paciente !== id));
-      toast.success("Paciente deletado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao deletar paciente:", error);
-      toast.error("Erro ao deletar paciente.");
-    }
+  const handleDelete = (id: number) => {
+    confirmAlert({
+      title: 'Confirmar Exclusão',
+      message: 'Você tem certeza que deseja deletar este paciente?',
+      buttons: [
+        {
+          label: 'Confirmar',
+          onClick: async () => {
+            try {
+              console.log("Deleting patient with ID:", id);
+              await axios.delete(`https://api-production-58ca.up.railway.app/patient/${id}`);
+              console.log("Patient deleted successfully!");
+      
+              setData(prevData => prevData.filter(patient => patient.id_paciente !== id));
+              toast.success("Paciente deletado com sucesso!");
+            } catch (error) {
+              console.error("Erro ao deletar paciente:", error);
+              toast.error("Erro ao deletar paciente.");
+            }
+          }
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => {}
+        }
+      ]
+    });
   };
+  
 
   const handleEditModalOpen = (patient: Patient) => {
     setModalData(patient); 
@@ -150,7 +175,7 @@ const Page = () => {
   const displaySexo = (sexo: 'M' | 'F') => sexo === 'M' ? 'Masculino' : 'Feminino';
 
   return (
-    <main className="2xl:h-full w-full flex items-center justify-center">
+    <main className="md:mt-5 2xl:mt-0 2xl:h-[91.5vh] w-full flex items-center justify-center">
       <Container>
         <div className="flex justify-between items-center py-2">
           <div className="text-gray-600 text-2xl font-semibold pb-2">Listagem de pacientes</div>
@@ -177,7 +202,7 @@ const Page = () => {
                     <Td width="200px">{item.nm_paciente}</Td>
                     <Td width="200px">{item.nr_cpf}</Td>
                     <Td width="200px">{displaySexo(item.tp_sexo)}</Td>
-                    <Td width="200px">{item.dt_nascimento}</Td>
+                    <Td width="200px">{formatBirthDateForDisplay(item.dt_nascimento)}</Td>
                     <Td width="200px">{formatPhoneNumber(item.nr_telefone)}</Td>
                     <Td width="5%">
                     <FaEdit onClick={() => handleEditModalOpen(item)} style={{ cursor: 'pointer' }} />

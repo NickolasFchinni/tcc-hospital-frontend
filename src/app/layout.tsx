@@ -26,7 +26,7 @@ export default function RootLayout({
       <AuthProvider>
         <div className="flex w-full">
           <Menu></Menu>
-          <div className="h-[95dvh] w-full bg-[#F1F3F6]">
+          <div className="h-[100vh] w-full bg-[#F1F3F6]">
             <Header></Header>
             {children}
           </div>

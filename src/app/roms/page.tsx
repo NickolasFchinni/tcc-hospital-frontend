@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import ProtectedRoute from "@/components/ProtectedRoute"
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';   
 
 const Container = styled.div`
   max-width: 1200px;
@@ -93,16 +95,31 @@ const Page = () => {
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      await axios.delete(`https://api-production-58ca.up.railway.app/sala/${id}`);
-      console.log("Sala deletada com sucesso!");
+    confirmAlert({
+      title: 'Confirmar Exclusão',
+      message: 'Você tem certeza que deseja deletar esta sala?',
+      buttons: [
+        {
+          label: 'Confirmar',
+          onClick: async () => {
+          try {
+            await axios.delete(`https://api-production-58ca.up.railway.app/sala/${id}`);
+            console.log("Sala deletada com sucesso!");
 
-      setSalas((prevSalas) => prevSalas.filter((sala) => sala.id_sala_cirurgica !== id));
-      toast.success("Sala deletada com sucesso!");
-    } catch (error) {
-      console.error("Erro ao deletar sala:", error);
-      toast.error("Erro ao deletar sala.");
-    }
+            setSalas((prevSalas) => prevSalas.filter((sala) => sala.id_sala_cirurgica !== id));
+            toast.success("Sala deletada com sucesso!");
+          } catch (error) {
+            console.error("Erro ao deletar sala:", error);
+            toast.error("Erro ao deletar sala.");
+          }
+          }
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => {}
+        }
+      ]
+    });
   };
 
   const getCentroNameById = (id_centro: number) => {
@@ -115,7 +132,7 @@ const Page = () => {
   };
 
   return (
-    <main className="2xl:h-full w-full flex items-center justify-center">
+    <main className="md:mt-5 2xl:mt-0 2xl:h-[91.5vh] w-full flex items-center justify-center">
       <Container>
         <div className="flex justify-between items-center py-2">
           <div className="text-gray-600 text-2xl font-semibold pb-2 mt-8">Listagem de salas</div>

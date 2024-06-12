@@ -7,6 +7,8 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "@/components/ProtectedRoute"
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';   
 
 const Container = styled.div`
   max-width: 1200px;
@@ -111,17 +113,32 @@ const Page = () => {
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      console.log("Apagando usuário com ID:", id);
-      await axios.delete(`https://api-production-58ca.up.railway.app/user/${id}`);
-      console.log("User deleted successfully!");
-  
-      setData(prevData => prevData.filter(user => user.id_usuario !== id));
-      toast.success("Usuário deletado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao deletar usuário:", error);
-      toast.error("Erro ao deletar usuário.");
-    }
+    confirmAlert({
+      title: 'Confirmar Exclusão',
+      message: 'Você tem certeza que deseja deletar este usuário?',
+      buttons: [
+        {
+          label: 'Confirmar',
+          onClick: async () => {
+          try {
+            console.log("Apagando usuário com ID:", id);
+            await axios.delete(`https://api-production-58ca.up.railway.app/user/${id}`);
+            console.log("User deleted successfully!");
+        
+            setData(prevData => prevData.filter(user => user.id_usuario !== id));
+            toast.success("Usuário deletado com sucesso!");
+          } catch (error) {
+            console.error("Erro ao deletar usuário:", error);
+            toast.error("Erro ao deletar usuário.");
+          }
+          }
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => {}
+        }
+      ]
+    });
   };
 
   const handleEditModalOpen = (user: User) => {
@@ -130,7 +147,7 @@ const Page = () => {
   };
 
   return (
-    <main className="2xl:h-full w-full flex items-center justify-center">
+    <main className="md:mt-5 2xl:mt-0 2xl:h-[91.5vh] w-full flex items-center justify-center">
       <Container>
         <div className="flex justify-between items-center py-2">
           <div className="text-gray-600 text-2xl font-semibold pb-2">Listagem de usuários</div>

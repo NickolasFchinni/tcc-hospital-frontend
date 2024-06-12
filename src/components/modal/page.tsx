@@ -30,6 +30,11 @@ interface Warning {
   id_usuario: number;
   id_procedimento: string;
   tp_lateralidade: string;
+  id_sala_cirurgica: number;
+  materiais: {
+    id_material: string,
+    nr_quantidade: number
+  }[];
 }
 
 interface ModalProps {
@@ -51,6 +56,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
   const [patient, setPatient] = useState<string>("");
   const [rooms, setRooms] = useState<string>("");
   const [surgeons, setSurgeons] = useState<string>("");
+  const [salas, setSalas] = useState<string>("");
   const [patients, setPatients] = useState<any[]>([]);
   const [date, setDate] = useState("");
   const [duration, setDuration] = useState("");
@@ -74,11 +80,14 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
   const [hemo, setHemo] = useState<string>("");
   const [biopsia, setBiopsia] = useState<string>("");
   const [idUsuario, setIdUsuario] = useState<number>(0);
+  const [idSala, setIdSala] = useState<any[]>([]);
+
 
   useEffect(() => {
     fetchPatients();
     fetchDoctors();
     fetchRoom();
+    fetchSala();
   }, []);
 
   useEffect(() => {
@@ -88,7 +97,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
         try {
           const decodedToken: any = jwtDecode(token);
           setPrestadorName(decodedToken.nome_prestador);
-          setIdUsuario(decodedToken.id_usuario);
+          setIdUsuario(decodedToken.id);
         } catch (error) {
           console.error("Erro ao decodificar token JWT:", error);
         }
@@ -110,7 +119,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
   }, [patient, patients]);
 
   useEffect(() => {
-    if (surgeryProposal[0].CO_PROCEDIMENTO) {
+    if (surgeryProposal && surgeryProposal.length > 0 && surgeryProposal[0].CO_PROCEDIMENTO) {
       fetchCompatibleMaterials(surgeryProposal[0].CO_PROCEDIMENTO);
     }
   }, [surgeryProposal]);
@@ -121,14 +130,24 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
       setSurgeon(response.data);
     } catch (error) {
       console.error("Failed to fetch doctors:", error);
-      setSurgeon([]); // Certifique-se de definir como um array vazio em caso de erro
+      setSurgeon([]); 
+    }
+  };
+
+  const fetchSala = async () => {
+    try {
+      const response = await axios.get("https://api-production-58ca.up.railway.app/sala");
+      setIdSala(response.data);
+    } catch (error) {
+      console.error("Failed to fetch rooms:", error);
+      setIdSala([]); 
     }
   };
 
   useEffect(() => {
     const initialQuantities: { [key: string]: number } = {};
     materials.forEach(material => {
-      initialQuantities[material.COD_PROCEDIMENTO_COMPATIVEL] = 0; // Inicialize com a quantidade padrão desejada
+      initialQuantities[material.COD_PROCEDIMENTO_COMPATIVEL] = 0; 
     });
     setMaterialQuantities(initialQuantities);
   }, [materials]);
@@ -145,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
   const fetchPatients = async () => {
     try {
-      const response = await axios.get("http://localhost:8700/patient");
+      const response = await axios.get("https://api-production-58ca.up.railway.app/patient");
       setPatients(response.data);
     } catch (error) {
       console.error("Failed to fetch patients:", error);
@@ -185,48 +204,59 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
 
     const selectedPatient = patients.find(p => p.nm_paciente === patient);
     const selectedProvider = surgeon.find(p => p.id_prestador.toString() === surgeons);
+    const selectedRoom = idSala.find(p => p.id_sala_cirurgica.toString() === salas);
+
+    const selectedMaterialData = materials.map(material => ({
+      id_material: material.COD_PROCEDIMENTO_COMPATIVEL,
+      nr_quantidade: materialQuantities[material.COD_PROCEDIMENTO_COMPATIVEL] || 0
+    }));
 
     const warningData: Warning = {
-      id_aviso_cirurgia: 0, // replace with actual ID if available
-      id_paciente: selectedPatient ? selectedPatient.id_paciente : 0, // use selectedPatient's ID
+      id_aviso_cirurgia: 0, 
+      id_paciente: selectedPatient ? selectedPatient.id_paciente : 0, 
       tp_aviso: warningType,
       dt_cadastro: new Date().toISOString().slice(0, 19).replace('T', ' '),
       dt_agendamento: date,
       dt_tempo_previsto: duration,
-      id_prestador: selectedProvider ? selectedProvider.id_prestador : 0, // replace with selected surgeon's ID
+      id_prestador: selectedProvider ? selectedProvider.id_prestador : 0,
       tp_anestesia: anestesia,
       sn_reserva_cti: cti,
       tp_lateralidade: laterality,
-      sn_biopsia: biopsia, // replace with actual value
-      sn_reserva_hemocomponentes: hemo, // replace with actual value
+      sn_biopsia: biopsia, 
+      sn_reserva_hemocomponentes: hemo, 
       ds_justificativa: description,
       id_usuario: idUsuario,
       id_procedimento: surgeryProposal ? String(surgeryProposal[0].CO_PROCEDIMENTO) : "",
+      id_sala_cirurgica: selectedRoom ? selectedRoom.id_sala_cirurgica : 0,
+      materiais: selectedMaterialData,
     };
 
+    
     try {
-        await onAddWarning(warningData);
-
-      setIsModalVisible(false);
+        await onAddWarning(warningData);  
+        setPatient("");
+        setAnestesia("");
+        setBiopsia("");
+        setCti("");
+        setDate("");
+        setDescription("");
+        setDuration("");
+        setHemo("");
+        setLaterality("");
+        setSurgeons("");
+        setSalas("");
+        setWarningType("");
+        setMaterialQuantities({});
+        setMaterials([]);
+        setSurgeryProposal([]);
+        
+        setIsModalVisible(false);
     } catch (error) {
       console.error("Erro ao criar/atualizar paciente:", error);
     }
+
+    
   };
-//    setPatients([]);
- //   setDate("");
- //   setDuration("");
-  //  setWarningType("");
-  //  setSurgeon([]);
- //   setRoom([]);
-   // setSpecialty("");
- //   setSurgeryProposal(Array(4).fill({ CO_PROCEDIMENTO: "", NO_PROCEDIMENTO: "" }));
-   // setLaterality("");
- //   setEquipments(Array(8).fill(false));
-//    setSelectedMaterials([]);
-  //  setQuantity(Array(4).fill(0));
-    //setRequester("");
-  //  closeModal();
- // };
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -306,7 +336,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
                 <label htmlFor="surgeryProposal1" className="font-semibold">Proposta Cirúrgica:</label>
                 <select
                   id="surgeryProposal1"
-                  value={surgeryProposal[0].CO_PROCEDIMENTO}
+                  value={surgeryProposal.length > 0 ? surgeryProposal[0].CO_PROCEDIMENTO : ""}
                   onChange={(e) => {
                     const updatedProposals = [...surgeryProposal];
                     updatedProposals[0] = proposals.find(p => p.CO_PROCEDIMENTO === e.target.value) || { CO_PROCEDIMENTO: "", NO_PROCEDIMENTO: "" };
@@ -402,7 +432,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
                   className="outline outline-offset-2 outline-1 rounded px-2 py-1 mt-2"
                 />
               </div>
-              <div className="flex flex-col w-full md:w-1/2 mt-2">
+              <div className="flex flex-col w-full md:w-1/3 mt-2">
                 <label htmlFor="hemo" className="font-semibold">Hemocomponentes:</label>
                 <select
                   id="hemo"
@@ -415,7 +445,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
                   <option value="N">Não</option>
                 </select>
               </div>
-              <div className="flex flex-col w-full md:w-1/2 mt-2">
+              <div className="flex flex-col w-full md:w-1/3 mt-2">
                 <label htmlFor="biopsia" className="font-semibold">Biópsia:</label>
                 <select
                   id="biopsia"
@@ -426,6 +456,22 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
                   <option value="">Selecione uma opção</option>
                   <option value="S">Sim</option>
                   <option value="N">Não</option>
+                </select>
+              </div>
+              <div className="flex flex-col w-full md:w-1/3 mt-3">
+                <label htmlFor="idSala" className="font-semibold">Sala de cirurgia:</label>
+                <select
+                  id="idSala"
+                  value={salas}
+                  onChange={(e) => setSalas(e.target.value)}
+                  className="outline outline-offset-2 outline-1 rounded px-2 py-1 mt-2 w-[223px]"
+                >
+                  <option value="">Selecione a sala cirúrgica</option>
+                  {idSala.map((s) => (
+                    <option key={s.id_sala_cirurgica} value={s.id_sala_cirurgica}>
+                      {s.nm_sala_cirurgica}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="flex flex-col w-full md:w-1/2 mt-3">
@@ -468,6 +514,7 @@ const Modal: React.FC<ModalProps> = ({ onAddWarning }) => {
                   className="outline outline-offset-2 outline-1 rounded px-2 py-1 mt-2 w-[223px]"
                 />
               </div>
+              <input type="hidden" name="idUsuario" value={idUsuario} />
               <button
                 onClick={closeModal}
                 className="bg-red-500 text-white py-2 px-4 my-4 rounded self-end"
