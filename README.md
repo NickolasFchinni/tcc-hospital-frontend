@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🏥 Sistema Hospitalar - Frontend
 
-## Getting Started
+## 📌 Sobre
+Este é o frontend do **Sistema de Gestão Hospitalar** desenvolvido para o **TCC**. A aplicação permite o gerenciamento de pacientes, médicos, salas e centros cirúrgicos, além de possibilitar a criação de avisos de cirurgia e a diferenciação de perfis de usuários (**Administrativo, Médico e TI**).
 
-First, run the development server:
+A interface foi desenvolvida com **React**, utilizando **TypeScript** para segurança do código e **Tailwind CSS** para estilização moderna e responsiva.
 
+---
+
+## 🚀 Tecnologias Utilizadas
+- **React.js** - Biblioteca para construção da interface
+- **TypeScript** - Tipagem estática para maior segurança
+- **Tailwind CSS** - Estilização rápida e eficiente
+- **Axios** - Comunicação com a API
+- **React Router** - Gerenciamento de rotas
+- **JWT (Json Web Token)** - Autenticação e controle de acesso
+
+---
+
+## ⚙️ Instalação e Configuração
+### 1️⃣ Pré-requisitos
+Antes de iniciar, certifique-se de ter instalado:
+- **Node.js** (versão 14 ou superior)
+- **Git**
+
+### 2️⃣ Clonar o repositório
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/NickolasFchinni/tcc-hospital-frontend.git
+cd tcc-hospital-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3️⃣ Instalar as dependências
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4️⃣ Configurar as variáveis de ambiente
+Crie um arquivo **.env** na raiz do projeto e adicione:
+```
+VITE_API_BASE_URL=http://localhost:3000
+VITE_JWT_SECRET=sua_chave_secreta
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 5️⃣ Rodar a aplicação
+```bash
+npm run dev
+```
 
-## Learn More
+A aplicação estará disponível em **http://localhost:5173**.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔑 Funcionalidades
+### 🔹 Autenticação
+- **Login e senha**
+- **Diferenciação de perfis** (Administrativo, Médico, TI)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### 🏥 Gestão Hospitalar
+- **Cadastro e gerenciamento de pacientes**
+- **Cadastro de médicos**
+- **Gerenciamento de salas e centros cirúrgicos**
+- **Criação e visualização de avisos de cirurgia**
 
-## Deploy on Vercel
+### 📊 Interface Moderna
+- **Estilização com Tailwind CSS**
+- **Experiência responsiva e intuitiva**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 📜 Licença
+Este projeto é de uso acadêmico e não deve ser utilizado para fins comerciais sem autorização prévia.
+
+📩 **Contato:** caso tenha dúvidas ou sugestões, entre em contato através do GitHub!
+
